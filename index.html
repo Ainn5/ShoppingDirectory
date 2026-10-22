@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Discover popular online shopping stores in India, all in one directory.">
+<title>India Shops — Shopping Directory</title>
+<style>
+:root{color-scheme:light;--ink:#172033;--muted:#64748b;--line:#e5eaf1;--brand:#6d3df5;--bg:#f7f8fc}
+*{box-sizing:border-box}body{margin:0;font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink);background:var(--bg)}
+header{background:linear-gradient(120deg,#321080,#7045f5 65%,#9b7aff);color:white;padding:22px max(22px,calc((100% - 1100px)/2))}
+nav{display:flex;align-items:center;justify-content:space-between;gap:16px}.logo{font-weight:800;font-size:1.2rem;letter-spacing:-.03em}.hero{max-width:1100px;margin:auto;padding:54px 22px 42px;color:white}header h1{font-size:clamp(2.1rem,5vw,3.5rem);line-height:1.08;letter-spacing:-.04em;margin:20px 0 12px}header p{max-width:600px;color:#eee7ff;margin:0 0 24px}.search{width:min(100%,640px);display:flex;background:white;border-radius:14px;padding:6px;box-shadow:0 12px 36px #24105a30}.search input{border:0;outline:0;min-width:0;flex:1;padding:12px;color:#172033;font:inherit}.search button{border:0;border-radius:10px;background:#26105f;color:white;padding:10px 18px;font:inherit;font-weight:700;cursor:pointer}
+main{max-width:1100px;margin:0 auto;padding:30px 22px 64px}.section-head{display:flex;justify-content:space-between;align-items:end;gap:12px;flex-wrap:wrap}.section-head h2{margin:0;font-size:1.5rem;letter-spacing:-.03em}.section-head p{margin:5px 0;color:var(--muted)}.filters{display:flex;gap:8px;flex-wrap:wrap;margin:22px 0}.filter{border:1px solid var(--line);background:white;color:#475569;padding:8px 13px;border-radius:99px;cursor:pointer;font:inherit}.filter.active{background:#ede8ff;color:#5126c7;border-color:#d7caff}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px}.card{display:flex;flex-direction:column;background:white;border:1px solid var(--line);border-radius:17px;padding:20px;min-height:190px;transition:transform .15s,box-shadow .15s}.card:hover{transform:translateY(-3px);box-shadow:0 12px 28px #25304b0c}.symbol{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;background:#f0ebff;font-size:1.45rem;margin-bottom:13px}.card h3{margin:0;font-size:1.05rem}.card p{margin:7px 0 18px;color:var(--muted);font-size:.92rem;flex:1}.card a{color:var(--brand);font-weight:700;text-decoration:none}.card a:hover{text-decoration:underline}.empty{padding:30px;text-align:center;color:var(--muted);grid-column:1/-1}footer{text-align:center;color:var(--muted);padding:25px;border-top:1px solid var(--line);font-size:.9rem}footer a{color:var(--brand)}.count{font-size:.9rem;color:var(--muted)}@media(max-width:500px){header{padding-left:16px;padding-right:16px}.hero{padding-top:38px}main{padding-left:16px;padding-right:16px}.search button{padding:9px 12px}}
+</style>
+</head>
+<body>
+<header><nav><div class="logo">🛍️ India Shops</div><div>Shopping Directory</div></nav><div class="hero"><h1>Find your next<br>favourite store.</h1><p>A handy directory of popular shopping websites in India. Search by store or browse by category.</p><form class="search" id="searchForm"><input id="search" type="search" placeholder="Search stores, fashion, electronics…" aria-label="Search stores"><button type="submit">Search</button></form></div></header>
+<main><div class="section-head"><div><h2>Explore stores</h2><p>Popular online shopping destinations</p></div><span class="count" id="count" aria-live="polite"></span></div><div class="filters" id="filters"></div><section class="grid" id="stores" aria-label="Shopping stores"></section></main>
+<footer>Made for shoppers in India · Always check each store's official website for current prices and offers.</footer>
+<script>
+const stores=[
+{name:"Amazon India",category:"General",icon:"📦",desc:"Everyday essentials, gadgets, home and more.",url:"https://www.amazon.in/"},
+{name:"Flipkart",category:"General",icon:"🛒",desc:"A wide range of products across categories.",url:"https://www.flipkart.com/"},
+{name:"Myntra",category:"Fashion",icon:"👗",desc:"Fashion, clothing, footwear and accessories.",url:"https://www.myntra.com/"},
+{name:"AJIO",category:"Fashion",icon:"👟",desc:"Clothing, shoes and contemporary styles.",url:"https://www.ajio.com/"},
+{name:"Tata CLiQ",category:"Fashion",icon:"✨",desc:"Fashion, lifestyle and selected electronics.",url:"https://www.tatacliq.com/"},
+{name:"Nykaa",category:"Beauty",icon:"💄",desc:"Beauty, skincare, makeup and wellness products.",url:"https://www.nykaa.com/"},
+{name:"Meesho",category:"General",icon:"🏷️",desc:"Browse value-focused finds across categories.",url:"https://www.meesho.com/"},
+{name:"Croma",category:"Electronics",icon:"🎧",desc:"Electronics, appliances and technology.",url:"https://www.croma.com/"},
+{name:"Reliance Digital",category:"Electronics",icon:"📱",desc:"Phones, computers and home electronics.",url:"https://www.reliancedigital.in/"},
+{name:"Vijay Sales",category:"Electronics",icon:"💻",desc:"Consumer electronics and home appliances.",url:"https://www.vijaysales.com/"},
+{name:"Pepperfry",category:"Home",icon:"🛋️",desc:"Furniture and home furnishings.",url:"https://www.pepperfry.com/"},
+{name:"FirstCry",category:"Kids",icon:"🧸",desc:"Baby care, kidswear, toys and essentials.",url:"https://www.firstcry.com/"},
+{name:"BigBasket",category:"Grocery",icon:"🥦",desc:"Groceries and household essentials.",url:"https://www.bigbasket.com/"},
+{name:"JioMart",category:"Grocery",icon:"🥑",desc:"Groceries and daily-use products.",url:"https://www.jiomart.com/"},
+{name:"Decathlon India",category:"Sports",icon:"🏸",desc:"Sportswear, fitness and outdoor equipment.",url:"https://www.decathlon.in/"},
+{name:"Bookswagon",category:"Books",icon:"📚",desc:"Fiction, non-fiction and academic books.",url:"https://www.bookswagon.com/"}
+];
+const categories=["All",...new Set(stores.map(s=>s.category))];let active="All";
+const filters=document.getElementById("filters"),grid=document.getElementById("stores"),search=document.getElementById("search");
+function renderFilters(){filters.innerHTML="";categories.forEach(c=>{const b=document.createElement("button");b.className="filter"+(active===c?" active":"");b.textContent=c;b.type="button";b.onclick=()=>{active=c;renderFilters();renderStores()};filters.appendChild(b)})}
+function renderStores(){const q=search.value.trim().toLowerCase();const list=stores.filter(s=>(active==="All"||s.category===active)&&(s.name+" "+s.category+" "+s.desc).toLowerCase().includes(q));document.getElementById("count").textContent=list.length+" stores";grid.innerHTML="";if(!list.length){grid.innerHTML='<div class="empty">No stores found. Try another search.</div>';return}list.forEach(s=>{const card=document.createElement("article");card.className="card";const icon=document.createElement("div");icon.className="symbol";icon.textContent=s.icon;const h=document.createElement("h3");h.textContent=s.name;const p=document.createElement("p");p.textContent=s.desc;const a=document.createElement("a");a.href=s.url;a.target="_blank";a.rel="noopener noreferrer";a.textContent="Visit official store ↗";card.append(icon,h,p,a);grid.appendChild(card)})}
+document.getElementById("searchForm").addEventListener("submit",e=>{e.preventDefault();renderStores()});search.addEventListener("input",renderStores);renderFilters();renderStores();
+</script></body></html>
